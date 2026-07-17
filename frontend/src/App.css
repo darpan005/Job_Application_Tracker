@@ -82,6 +82,7 @@ textarea {
 .stat-card h2 {
   font-size: 30px;
   margin-top: 8px;
+  color: #252629;
 }
 
 .applied-card {
@@ -119,6 +120,8 @@ textarea {
 .section-heading h2,
 .applications-header h2 {
   margin-bottom: 6px;
+  color: #2f3137;
+  font-weight: bold;
 }
 
 .section-heading p,
