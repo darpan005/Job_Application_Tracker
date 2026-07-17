@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
+  const API_URL = "https://job-application-tracker-1hqi.onrender.com";
+
   const emptyForm = {
     company_name: "",
     job_role: "",
@@ -35,7 +37,7 @@ function App() {
   // READ
   const fetchApplications = async () => {
     try {
-      const response = await fetch("http://localhost:5000/applications");
+      const response = await fetch(`${API_URL}/applications`);
       const data = await response.json();
       setApplications(data);
     } catch (error) {
@@ -61,8 +63,8 @@ function App() {
 
     try {
       const url = editId
-        ? `http://localhost:5000/applications/${editId}`
-        : "http://localhost:5000/applications";
+        ? `${API_URL}/applications/${editId}`
+        : `${API_URL}/applications`;
 
       const method = editId ? "PUT" : "POST";
 
@@ -129,7 +131,7 @@ function App() {
   const confirmDelete = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/applications/${deleteId}`,
+        `${API_URL}/applications/${deleteId}`,
         {
           method: "DELETE",
         }
