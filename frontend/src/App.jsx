@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const API_URL = "https://job-application-tracker-1hqi.onrender.com";
+  const API_URL = import.meta.env.VITE_API_URL || "https://job-application-tracker-1hqi.onrender.com";
 
   const emptyForm = {
     company_name: "",
@@ -15,6 +15,7 @@ function App() {
   };
 
   const [applications, setApplications] = useState([]);
+  const [loadError, setLoadError] = useState("");
   const [formData, setFormData] = useState(emptyForm);
   const [editId, setEditId] = useState(null);
 
@@ -39,9 +40,17 @@ function App() {
     try {
       const response = await fetch(`${API_URL}/applications`);
       const data = await response.json();
+
+      if (!response.ok || !Array.isArray(data)) {
+        throw new Error(data.error || "The application data could not be loaded.");
+      }
+
       setApplications(data);
+      setLoadError("");
     } catch (error) {
       console.error("Error fetching applications:", error);
+      setApplications([]);
+      setLoadError("The application service is temporarily unavailable. Please try again shortly.");
     }
   };
 
@@ -424,6 +433,15 @@ function App() {
             </select>
           </div>
         </div>
+
+        {loadError && (
+          <div className="error-state" role="alert">
+            <p>{loadError}</p>
+            <button className="cancel-button" type="button" onClick={fetchApplications}>
+              Retry
+            </button>
+          </div>
+        )}
 
         {sortedApplications.length === 0 ? (
           <div className="empty-state">

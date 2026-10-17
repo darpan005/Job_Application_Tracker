@@ -14,6 +14,16 @@ app.get("/", (req, res) => {
   res.send("Job Application Tracker Backend is running!");
 });
 
+app.get("/health", async (req, res) => {
+  try {
+    await pool.query("SELECT 1");
+    res.json({ status: "ok", database: "connected" });
+  } catch (error) {
+    console.error("Database health check failed:", error.message);
+    res.status(503).json({ status: "unavailable", database: "disconnected" });
+  }
+});
+
 // CREATE
 app.post("/applications", async (req, res) => {
   try {

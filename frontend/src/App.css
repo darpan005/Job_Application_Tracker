@@ -112,6 +112,23 @@ textarea {
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
 }
 
+.error-state {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.25rem 0;
+  padding: 1rem;
+  border: 1px solid #fca5a5;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.error-state p {
+  margin: 0;
+}
+
 .section-heading,
 .applications-header {
   margin-bottom: 24px;
