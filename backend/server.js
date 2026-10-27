@@ -173,6 +173,28 @@ app.delete("/applications/:id", async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+async function start() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS applications (
+        id SERIAL PRIMARY KEY,
+        company_name TEXT NOT NULL,
+        job_role TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'Applied',
+        applied_date DATE,
+        application_deadline DATE,
+        location TEXT,
+        notes TEXT
+      )
+    `);
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Unable to initialize database schema:", error.message);
+    process.exit(1);
+  }
+}
+
+start();
